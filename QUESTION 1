@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+
+void encryptCaesar(char text[], int k) {
+    for (int i = 0; text[i] != '\0'; i++) {
+        char ch = text[i];
+
+      
+        if (isupper(ch)) {
+            text[i] = ((ch - 'A' + k) % 26) + 'A';
+        }
+        else if (islower(ch)) {
+            text[i] = ((ch - 'a' + k) % 26) + 'a';
+        }
+    }
+}
+
+void decryptCaesar(char text[], int k) {
+    for (int i = 0; text[i] != '\0'; i++) {
+        char ch = text[i];
+
+        
+        if (isupper(ch)) {
+            text[i] = ((ch - 'A' - k + 26) % 26) + 'A';
+        }
+        // Check for lowercase letters
+        else if (islower(ch)) {
+            text[i] = ((ch - 'a' - k + 26) % 26) + 'a';
+        }
+    }
+}
+
+int main() {
+    char message[1000];
+    int k;
+
+    printf("Enter a message to encrypt: ");
+    fgets(message, sizeof(message), stdin);
+  
+    message[strcspn(message, "\n")] = '\0';
+
+    printf("Enter the shift key (1 to 25): ");
+    scanf("%d", &k);
+
+    if (k < 1 || k > 25) {
+        printf("Error: Key must be in the range 1 through 25.\n");
+        return 1;
+    }
+
+    encryptCaesar(message, k);
+    printf("\nEncrypted Ciphertext: %s\n", message);
+    decryptCaesar(message, k);
+    printf("Decrypted Plaintext:  %s\n", message);
+
+    return 0;
+}
